@@ -1,0 +1,109 @@
+# Created by newuser for 5.9
+### Added by Zinit's installer
+if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+        print -P "%F{33} %F{34}Installation successful.%f%b" || \
+        print -P "%F{160} The clone has failed.%f%b"
+fi
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zdharma-continuum/zinit-annex-as-monitor \
+    zdharma-continuum/zinit-annex-bin-gem-node \
+    zdharma-continuum/zinit-annex-patch-dl \
+    zdharma-continuum/zinit-annex-rust
+### End of Zinit's installer chunk
+
+# Configuration de l'historique (avant de charger les plugins pour éviter les conflits)
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.zsh_history
+setopt HIST_IGNORE_ALL_DUPS     # Ne pas stocker les doublons
+setopt HIST_FIND_NO_DUPS        # Ne pas afficher les doublons lors de la recherche
+setopt HIST_IGNORE_SPACE        # Ne pas enregistrer les commandes commençant par un espace
+setopt SHARE_HISTORY            # Partage de l'historique entre les instances
+
+# Options ZSH
+setopt AUTO_CD                  # cd automatique si la commande est un répertoire
+setopt AUTO_PUSHD               # pousse l'ancien répertoire sur la pile
+setopt PUSHD_IGNORE_DUPS        # pas de doublons dans la pile de répertoires
+setopt INTERACTIVE_COMMENTS     # permet les commentaires dans le shell interactif
+setopt EXTENDED_GLOB            # Active la gestion étendue des motifs globaux
+
+# Autocomplete système (chargé avant les plugins pour éviter les conflits)
+autoload -Uz compinit
+compinit
+
+# Utilisation de la touche Tab pour la complétion du menu
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' # Case insensitive
+
+# Plugins de base avec Turbo Mode pour accélérer le chargement
+zinit wait lucid light-mode for \
+    atinit"zicompinit; zicdreplay" \
+        zdharma-continuum/fast-syntax-highlighting \
+    atload"_zsh_autosuggest_start" \
+        zsh-users/zsh-autosuggestions \
+    blockf atpull'zinit creinstall -q .' \
+        zsh-users/zsh-completions \
+    zdharma-continuum/history-search-multi-word
+
+# Navigation améliorée
+zinit wait lucid for \
+    atinit"ZSHZ_DATA=~/.cache/.z" \
+        agkozak/zsh-z \
+    atload"bindkey '^R' forgit::fzf-git-log" \
+        wfxr/forgit
+
+# fzf-tab (après les plugins de complétion)
+zinit wait lucid light-mode for \
+    Aloxaf/fzf-tab
+
+# Snippets utiles Oh My Zsh
+zinit wait lucid for \
+    OMZL::history.zsh \
+    OMZL::key-bindings.zsh \
+    OMZP::extract/extract.plugin.zsh
+
+# Aliases pour exa
+alias ls='exa --group-directories-first --icons'
+alias la='exa -a --group-directories-first --icons'
+alias ll='exa -l --git --group-directories-first --icons'
+alias lla='exa -la --git --group-directories-first --icons'
+alias lt='exa --tree --level=2 --icons'
+
+# Aliases supplémentaires
+alias zshrc="${EDITOR:-nano} ~/.zshrc"      # Éditer rapidement .zshrc
+alias srczsh="source ~/.zshrc"              # Recharger .zshrc
+alias ..="cd .."                            # Raccourci pour remonter d'un niveau
+alias ...="cd ../.."                        # Remonter de deux niveaux
+alias grep="grep --color=auto"              # Grep avec couleurs
+alias mkdir="mkdir -p"                      # mkdir crée les parents par défaut
+alias h="history"                          # Raccourci pour l'historique
+alias j="zshz"                             # Raccourci pour zsh-z
+
+# Fonctions utiles
+# Création et cd dans un nouveau répertoire
+mcd() {
+    mkdir -p "$1" && cd "$1"
+}
+
+# Cherche récursivement un terme dans les fichiers
+fif() {
+    grep --color=auto -r "$1" .
+}
+
+# direnv - à installer séparément avec pacman
+if command -v direnv &> /dev/null; then
+    eval "$(direnv hook zsh)"
+fi
+
+# Starship prompt (chargé en dernier pour éviter les conflits)
+if command -v starship &> /dev/null; then
+    eval "$(starship init zsh)"
+fi
