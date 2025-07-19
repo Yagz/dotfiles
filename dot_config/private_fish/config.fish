@@ -7,8 +7,8 @@ set -U fish_user_paths $HOME/.bin  $HOME/.local/bin $HOME/.config/emacs/bin $HOM
 ### EXPORT ###
 set fish_greeting                                 # Supresses fish's intro message
 set TERM "xterm-256color"                         # Sets the terminal type
-set EDITOR "emacsclient -t -a ''"                 # $EDITOR use Emacs in terminal
-set VISUAL "emacsclient -c -a emacs"              # $VISUAL use Emacs in GUI mode
+set EDITOR "code --wait"                          # $EDITOR use VS Code and wait for file to be closed
+set VISUAL "code"                                 # $VISUAL use VS Code in GUI mode
 
 ### SET MANPAGER
 ### Uncomment only one of these!
@@ -21,8 +21,8 @@ set -x MANPAGER "nvim +Man!"
 
 ### SET EITHER DEFAULT EMACS MODE OR VI MODE ###
 function fish_user_key_bindings
-  # fish_default_key_bindings
-  fish_vi_key_bindings
+  fish_default_key_bindings  # Changed from vi mode to default for easier use
+  # fish_vi_key_bindings
 end
 ### END OF VI MODE ###
 
@@ -68,7 +68,13 @@ end
 # ex: backup file.txt
 # result: copies file as file.txt.bak
 function backup --argument filename
-    cp $filename $filename.bak
+    if test -f $filename
+        cp $filename $filename.bak
+        echo "✅ Backup created: $filename.bak"
+    else
+        echo "❌ File not found: $filename"
+        return 1
+    end
 end
 
 # Function for copying files and directories, even recursively.
@@ -115,17 +121,18 @@ function take --argument number
     head -$number
 end
 
-# Function for org-agenda
-function org-search -d "send a search string to org-mode"
-    set -l output (/usr/bin/emacsclient -a "" -e "(message \"%s\" (mapconcat #'substring-no-properties \
-        (mapcar #'org-link-display-format \
-        (org-ql-query \
-        :select #'org-get-heading \
-        :from  (org-agenda-files) \
-        :where (org-ql--query-string-to-sexp \"$argv\"))) \
-        \"
-    \"))")
-    printf $output
+# Function to open VS Code in current directory
+function c
+    code .
+end
+
+# Function to open a file/directory in VS Code
+function cc --argument target
+    if test -z "$target"
+        code .
+    else
+        code $target
+    end
 end
 
 ### END OF FUNCTIONS ###
@@ -139,11 +146,10 @@ alias .3='cd ../../..'
 alias .4='cd ../../../..'
 alias .5='cd ../../../../..'
 
-# vim and emacs
+# editors
 alias vim='nvim'
-alias emacs="emacsclient -c -a 'emacs'"
-alias em='/usr/bin/emacs -nw'
-alias rem="killall emacs || echo 'Emacs server not running'; /usr/bin/emacs --daemon" # Kill Emacs and restart daemon..
+alias code='code'
+alias c.='code .'  # Open current directory in VS Code
 
 # Changing "ls" to "eza"
 alias ls='eza -al --color=always --group-directories-first' # my preferred listing
@@ -155,7 +161,7 @@ alias l.='eza -al --color=always --group-directories-first ../' # ls on the PARE
 alias l..='eza -al --color=always --group-directories-first ../../' # ls on directory 2 levels up
 alias l...='eza -al --color=always --group-directories-first ../../../' # ls on directory 3 levels up
 
-# pacman and yay
+# pacman and paru
 alias pacsyu='sudo pacman -Syu'                  # update only standard pkgs
 alias pacsyyu='sudo pacman -Syyu'                # Refresh pkglist & update standard pkgs
 alias parsua='paru -Sua --noconfirm'             # update only AUR pkgs (paru)
@@ -216,16 +222,12 @@ alias config="/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME"
 # termbin
 alias tb="nc termbin.com 9999"
 
-# the terminal rickroll
-alias rr='curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash'
+# VS Code shortcuts
+alias codew='code --wait'  # Wait for file to be closed before returning
+alias coden='code --new-window'  # Open in new window
 
-# Mocp must be launched with bash instead of Fish!
-alias mocp="bash -c mocp"
-
-### RANDOM COLOR SCRIPT ###
-# Get this script from my GitLab: gitlab.com/dwt1/shell-color-scripts
-# Or install it from the Arch User Repository: shell-color-scripts
-#colorscript random
+# Bat a modern replacement for cat
+alias cat='bat --color=always'  # Use bat instead of cat
 
 ### SETTING THE STARSHIP PROMPT ###
 starship init fish | source
