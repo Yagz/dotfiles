@@ -1,197 +1,417 @@
-[aws]
-format = '\[[$symbol($profile)(\($region\))(\[$duration\])]($style)\]'
+# =============================================================================
+# STARSHIP CONFIGURATION - MODERN & STYLISH WITH HARMONIZED NERD FONTS
+# =============================================================================
 
-[bun]
-format = '\[[$symbol($version)]($style)\]'
+# Prompt global settings
+format = """
+[╭─](#9A348E)\
+$os\
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$git_metrics\
+$fill\
+$nodejs\
+$python\
+$rust\
+$golang\
+$php\
+$java\
+$c\
+$cpp\
+$docker_context\
+$conda\
+$package\
+$memory_usage\
+$cmd_duration\
+$time
+[╰─❯ ](fg:#9A348E)"""
 
-[c]
-format = '\[[$symbol($version(-$name))]($style)\]'
+right_format = """$battery$jobs$status"""
 
-[cpp]
-format = '\[[$symbol($version(-$name))]($style)\]'
+# Continuation prompt for multi-line commands
+continuation_prompt = "[∙](bright-black) "
 
-[cmake]
-format = '\[[$symbol($version)]($style)\]'
-
-[cmd_duration]
-format = '\[[⏱ $duration]($style)\]'
-
-[cobol]
-format = '\[[$symbol($version)]($style)\]'
-
-[conda]
-format = '\[[$symbol$environment]($style)\]'
-
-[crystal]
-format = '\[[$symbol($version)]($style)\]'
-
-[daml]
-format = '\[[$symbol($version)]($style)\]'
-
-[dart]
-format = '\[[$symbol($version)]($style)\]'
-
-[deno]
-format = '\[[$symbol($version)]($style)\]'
-
-[docker_context]
-format = '\[[$symbol$context]($style)\]'
-
-[dotnet]
-format = '\[[$symbol($version)(🎯 $tfm)]($style)\]'
-
-[elixir]
-format = '\[[$symbol($version \(OTP $otp_version\))]($style)\]'
-
-[elm]
-format = '\[[$symbol($version)]($style)\]'
-
-[erlang]
-format = '\[[$symbol($version)]($style)\]'
-
-[fennel]
-format = '\[[$symbol($version)]($style)\]'
-
-[fossil_branch]
-format = '\[[$symbol$branch]($style)\]'
-
-[gcloud]
-format = '\[[$symbol$account(@$domain)(\($region\))]($style)\]'
-
-[git_branch]
-format = '\[[$symbol$branch]($style)\]'
-
-[git_status]
-format = '([\[$all_status$ahead_behind\]]($style))'
-
-[golang]
-format = '\[[$symbol($version)]($style)\]'
-
-[gradle]
-format = '\[[$symbol($version)]($style)\]'
-
-[guix_shell]
-format = '\[[$symbol]($style)\]'
-
-[haskell]
-format = '\[[$symbol($version)]($style)\]'
-
-[haxe]
-format = '\[[$symbol($version)]($style)\]'
-
-[helm]
-format = '\[[$symbol($version)]($style)\]'
-
-[hg_branch]
-format = '\[[$symbol$branch]($style)\]'
-
-[java]
-format = '\[[$symbol($version)]($style)\]'
-
-[julia]
-format = '\[[$symbol($version)]($style)\]'
-
-[kotlin]
-format = '\[[$symbol($version)]($style)\]'
-
-[kubernetes]
-format = '\[[$symbol$context( \($namespace\))]($style)\]'
-
-[lua]
-format = '\[[$symbol($version)]($style)\]'
-
-[memory_usage]
-format = '\[$symbol[$ram( | $swap)]($style)\]'
-
-[meson]
-format = '\[[$symbol$project]($style)\]'
-
-[nim]
-format = '\[[$symbol($version)]($style)\]'
-
-[nix_shell]
-format = '\[[$symbol$state( \($name\))]($style)\]'
-
-[nodejs]
-format = '\[[$symbol($version)]($style)\]'
-
-[ocaml]
-format = '\[[$symbol($version)(\($switch_indicator$switch_name\))]($style)\]'
-
-[opa]
-format = '\[[$symbol($version)]($style)\]'
-
-[openstack]
-format = '\[[$symbol$cloud(\($project\))]($style)\]'
+# =============================================================================
+# OS & USER INFO
+# =============================================================================
 
 [os]
-format = '\[[$symbol]($style)\]'
+disabled = false
+style = "bg:#9A348E fg:#ffffff"
+format = '[ $symbol ]($style)'
 
-[package]
-format = '\[[$symbol$version]($style)\]'
-
-[perl]
-format = '\[[$symbol($version)]($style)\]'
-
-[php]
-format = '\[[$symbol($version)]($style)\]'
-
-[pijul_channel]
-format = '\[[$symbol$channel]($style)\]'
-
-[pixi]
-format = '\[[$symbol$version( $environment)]($style)\]'
-
-[pulumi]
-format = '\[[$symbol$stack]($style)\]'
-
-[purescript]
-format = '\[[$symbol($version)]($style)\]'
-
-[python]
-format = '\[[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style)\]'
-
-[raku]
-format = '\[[$symbol($version-$vm_version)]($style)\]'
-
-[red]
-format = '\[[$symbol($version)]($style)\]'
-
-[ruby]
-format = '\[[$symbol($version)]($style)\]'
-
-[rust]
-format = '\[[$symbol($version)]($style)\]'
-
-[scala]
-format = '\[[$symbol($version)]($style)\]'
-
-[spack]
-format = '\[[$symbol$environment]($style)\]'
-
-[sudo]
-format = '\[[as $symbol]($style)\]'
-
-[swift]
-format = '\[[$symbol($version)]($style)\]'
-
-[terraform]
-format = '\[[$symbol$workspace]($style)\]'
-
-[time]
-format = '\[[$time]($style)\]'
+[os.symbols]
+Arch = "󰣇"
+Ubuntu = "󰕈"
+Debian = "󰣚"
+Fedora = "󰣛"
+Linux = "󰌽"
+Windows = "󰍲"
+Macos = "󰀵"
+Alpine = "󰀶"
+Amazon = "󰸏"
+Android = "󰀲"
+CentOS = "󱄅"
+Mint = "󰣭"
+openSUSE = ""
+SUSE = ""
+Redhat = "󱄛"
+RedHatEnterprise = "󱄛"
+Pop = "󰟈"
+Manjaro = "󱘊"
+NixOS = "󱄅"
+Gentoo = "󰣨"
+Kali = ""
 
 [username]
-format = '\[[$user]($style)\]'
+show_always = true
+style_user = "bg:#9A348E fg:#ffffff"
+style_root = "bg:#9A348E fg:#ffffff"
+format = '[ 󰀄 $user ]($style)'
 
-[vagrant]
-format = '\[[$symbol($version)]($style)\]'
+[hostname]
+ssh_only = false
+style = "bg:#9A348E fg:#ffffff"
+format = '[ 󰒋 $hostname ]($style)'
+trim_at = "."
 
-[vlang]
-format = '\[[$symbol($version)]($style)\]'
+# =============================================================================
+# DIRECTORY
+# =============================================================================
 
-[zig]
-format = '\[[$symbol($version)]($style)\]'
+[directory]
+style = "fg:#e3e5e5 bg:#06969A"
+format = "[ $path ]($style)"
+truncation_length = 4
+truncation_symbol = "…/"
+home_symbol = "󰋜 ~"
+read_only = " 󰌾"
 
-[solidity]
-format = '\[[$symbol($version)]($style)\]'
+# Special directory symbols (harmonized with modern icons)
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Téléchargements" = "󰇚 "
+"Downloads" = "󰇚 "
+"Musique" = "󰝚 "
+"Music" = "󰝚 "
+"Images" = "󰉏 "
+"Pictures" = "󰉏 "
+"Vidéos" = "󰕧 "
+"Videos" = "󰕧 "
+"Projects" = "󰲋 "
+"Code" = "󰨞 "
+"src" = "󰴉 "
+"bin" = "󰜷 "
+"lib" = "󰌱 "
+"include" = "󰏒 "
+".config" = "󰒓 "
+".git" = "󰊢 "
+"node_modules" = "󰎙 "
+"target" = "󰏗 "
+"build" = "󰦝 "
+"dist" = "󰜷 "
+
+# =============================================================================
+# GIT INTEGRATION
+# =============================================================================
+
+[git_branch]
+symbol = "󰊢 "
+style = "bg:#FCA17D fg:#000000"
+format = '[ $symbol$branch ]($style)'
+
+[git_status]
+style = "bg:#FCA17D fg:#000000"
+format = '[$all_status$ahead_behind ]($style)'
+
+# Git status symbols (harmonized)
+conflicted = "󰞇 "
+ahead = "󰁝 ${count}"
+behind = "󰁅 ${count}"
+diverged = "󰹺 ${ahead_count}󰁆 ${behind_count}"
+up_to_date = "󰘽 "
+untracked = "󰋗 ${count}"
+stashed = "󰆓 ${count}"
+modified = "󰤌 ${count}"
+staged = "󰐕 ${count}"
+renamed = "󰑕 ${count}"
+deleted = "󰆴 ${count}"
+
+[git_metrics]
+added_style = "fg:#1C3A5E"
+deleted_style = "fg:#3A1E1E"
+only_nonzero_diffs = true
+format = '([+$added]($added_style) )([-$deleted]($deleted_style) )'
+disabled = false
+
+# =============================================================================
+# PROGRAMMING LANGUAGES
+# =============================================================================
+
+[nodejs]
+symbol = "󰎙 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$version ]($style)'
+
+[python]
+symbol = "󰌠 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$version( \($virtualenv\)) ]($style)'
+pyenv_version_name = true
+
+[rust]
+symbol = "󱘗 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$version ]($style)'
+
+[golang]
+symbol = "󰟓 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$version ]($style)'
+
+[php]
+symbol = "󰌟 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$version ]($style)'
+
+[java]
+symbol = "󰬷 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$version ]($style)'
+
+[c]
+symbol = "󰙱 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$version ]($style)'
+
+[cpp]
+symbol = "󰙲 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$version ]($style)'
+
+[ruby]
+symbol = "󰴭 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$version ]($style)'
+
+[lua]
+symbol = "󰢱 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$version ]($style)'
+
+[dart]
+symbol = "󰇂 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$version ]($style)'
+
+[swift]
+symbol = "󰛥 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$version ]($style)'
+
+[kotlin]
+symbol = "󱈙 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$version ]($style)'
+
+[scala]
+symbol = "󰡃 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$version ]($style)'
+
+[elixir]
+symbol = "󰸏 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$version ]($style)'
+
+# =============================================================================
+# WEB & FRONTEND
+# =============================================================================
+
+[deno]
+symbol = "󰯸 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$version ]($style)'
+
+# =============================================================================
+# CONTAINERS & TOOLS
+# =============================================================================
+
+[docker_context]
+symbol = "󰡨 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$context ]($style)'
+
+[kubernetes]
+symbol = "󱃾 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$context( \($namespace\)) ]($style)'
+disabled = true
+
+[terraform]
+symbol = "󱁢 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$workspace ]($style)'
+
+[nix_shell]
+symbol = "󱄅 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$state( \($name\)) ]($style)'
+
+# =============================================================================
+# PACKAGE MANAGERS
+# =============================================================================
+
+[package]
+symbol = "󰏗 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$version ]($style)'
+
+# =============================================================================
+# CLOUD & INFRASTRUCTURE
+# =============================================================================
+
+[aws]
+symbol = "󰸏 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol($profile )(\($region\)) ]($style)'
+disabled = true
+
+[gcloud]
+symbol = "󱇶 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$account(@$domain)(\($region\)) ]($style)'
+disabled = true
+
+# =============================================================================
+# SYSTEM INFO
+# =============================================================================
+
+[memory_usage]
+disabled = false
+threshold = 85
+symbol = "󰍛 "
+style = "bg:#212736 fg:#ffffff"
+format = "[ $symbol${ram_pct} ]($style)"
+
+[cmd_duration]
+min_time = 1_000
+style = "fg:#FCA17D"
+format = "[ 󱎫 $duration]($style)"
+show_milliseconds = true
+
+[time]
+disabled = false
+time_format = "%R"
+style = "bg:#1d2230 fg:#ffffff"
+format = '[ 󰥔 $time ]($style)'
+
+# =============================================================================
+# STATUS & ERROR HANDLING
+# =============================================================================
+
+[status]
+style = "bg:#1d2230 fg:#f38ba8"
+symbol = "󰅗 "
+success_symbol = ""
+not_executable_symbol = "󰉃 "
+not_found_symbol = "󰍉 "
+sigint_symbol = "󰗨 "
+signal_symbol = "󱐋 "
+format = '[ $symbol$common_meaning$signal_name$maybe_int ]($style)'
+map_symbol = true
+disabled = false
+
+# =============================================================================
+# COMMAND CHARACTER
+# =============================================================================
+
+[character]
+disabled = true
+success_symbol = "[󰘧](bold fg:#06969A)"
+error_symbol = "[󰘧](bold fg:#f38ba8)"
+vimcmd_symbol = "[󰘧](bold fg:#cba6f7)"
+
+# =============================================================================
+# SHELL INDICATOR
+# =============================================================================
+
+[shell]
+fish_indicator = "󰈺 "
+bash_indicator = "󱆃 "
+zsh_indicator = "󰰶 "
+powershell_indicator = "󰨊 "
+ion_indicator = "󰸩 "
+elvish_indicator = "󰰶 "
+tcsh_indicator = "󰰶 "
+xonsh_indicator = "󰰶 "
+cmd_indicator = "󰘳 "
+nu_indicator = "󰈔 "
+unknown_indicator = "󰘧 "
+style = "cyan bold"
+disabled = false
+
+# =============================================================================
+# JOBS & TASKS
+# =============================================================================
+
+[jobs]
+symbol = "󰔟 "
+style = "bold blue"
+number_threshold = 1
+symbol_threshold = 1
+format = "[ $symbol$number ]($style)"
+
+# =============================================================================
+# BATTERY (for laptops)
+# =============================================================================
+
+[battery]
+full_symbol = "󰁹 "
+charging_symbol = "󰂄 "
+discharging_symbol = "󰂃 "
+unknown_symbol = "󰁽 "
+empty_symbol = "󰁻 "
+format = "[ $symbol$percentage ]($style)"
+
+[[battery.display]]
+threshold = 15
+style = "bold red"
+
+[[battery.display]]
+threshold = 50
+style = "bold yellow"
+
+[[battery.display]]
+threshold = 80
+style = "bold green"
+
+# =============================================================================
+# CONDA & VIRTUAL ENVIRONMENTS
+# =============================================================================
+
+[conda]
+symbol = "󰌠 "
+style = "bg:#212736 fg:#ffffff"
+format = '[ $symbol$environment ]($style)'
+
+# =============================================================================
+# MISCELLANEOUS
+# =============================================================================
+
+[sudo]
+symbol = "󰯄 "
+style = "bold red"
+format = '[ $symbol ]($style)'
+disabled = false
+
+# =============================================================================
+# FILL - for right alignment
+# =============================================================================
+
+[fill]
+symbol = " "
+style = "bold black"
